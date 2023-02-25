@@ -50,7 +50,7 @@ public class Road
     public Road()
     {
         this.type = RoadType.HIGHWAY;
-        this.length = 0;
+        this.length = -1;
         this.speedLimit = 0;
     }
     public RoadType getType()
@@ -65,8 +65,10 @@ public class Road
     {
         return length;
     }
+
     public void setLength(int length)
     {
+
         this.length = length;
     }
     public int getSpeedLimit()
