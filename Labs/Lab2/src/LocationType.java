@@ -1,9 +1,34 @@
-public enum LocationType
+public abstract  class  LocationType
 {
-    CITY,
-    AIRPORT,
-    SHOP,
-    HOUSE,
-    HOSPITAL,
-    SCHOOL
+
+    protected String locationType;
+    protected int population;
+    protected  LocationType()
+    {
+
+    }
+
+    protected  void setLocationType(String locationType)
+    {
+        this.locationType = locationType;
+    }
+
+    protected  void setPopulation(int population)
+    {
+        this.population = population;
+    }
+
+    protected  String getLocationType()
+    {
+        return this.locationType;
+    }
+
+    protected  int getPopulation()
+    {
+        return this.population;
+    }
+
+
+
 }
+

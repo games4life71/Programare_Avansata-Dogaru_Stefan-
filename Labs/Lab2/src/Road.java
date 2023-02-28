@@ -1,9 +1,8 @@
 import java.util.Objects;
 
 /**
- Road class that connects two locations and has a type, length, and speed limit
- @author: Dogaru Stefan Adrian
- @version: 1.0
+ Road class that connects two locations and has a type, length, and speed limit . It models the problem of finding the shortest path between two locations.
+ @author Dogaru Stefan Adrian
 
  */
 public class Road
@@ -68,7 +67,6 @@ public class Road
 
     public void setLength(int length)
     {
-
         this.length = length;
     }
     public int getSpeedLimit()
@@ -94,10 +92,13 @@ public class Road
     public boolean equals(Object o)
     {
         if (this == o) return true; //case when the object is compared to itself
+
         if (o == null || getClass() != o.getClass()) return false; //case when the object is compared to null or to an object of a different class
+
         Road road = (Road) o;
 
-        return length == road.length && speedLimit == road.speedLimit && type == road.type;
+        return length == road.length && speedLimit == road.speedLimit && type == road.type && startLocation.equals(road.startLocation) && endLocation.equals(road.endLocation);
+
 
     }
 

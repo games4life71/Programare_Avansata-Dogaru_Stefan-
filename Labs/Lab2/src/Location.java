@@ -9,7 +9,7 @@ import java.util.Objects;
  * The default type is city.
  *
  * @author Dogaru Stefan Adrian
- * @version 1.0
+ *
  *
  *
  */
@@ -19,20 +19,33 @@ public class Location
     private int y;
     private LocationType type;
 
-    private Road road;
+    private Road roads[] = new Road[2];  //assume we can only connect 1 road between 2 locations
 
-    private Road connectedRoad; //assume we can only connect 1 road between 2 locations
+
 
 
 /** Constructor for Location class with type included
 
  */
-    public Location(int x, int y, @NotNull LocationType type)
+    public Location(int x, int y)
     {
+
         this.x = x;
         this.y = y;
+        this.type = null; //default type is null
+
+    }
+    //setter for LocationType
+    public void setLocationType(LocationType type)
+    {
         this.type = type;
     }
+
+    public LocationType getLocationType()
+    {
+        return this.type;
+    }
+
 
 
     public LocationType getType()
@@ -48,12 +61,7 @@ public class Location
     /** Constructor for Location class with type set to default
 
      */
-    public Location(int x, int y)
-    {
-        this.x = x;
-        this.y = y;
-        this.type = LocationType.CITY; //default is city type
-    }
+
 
     /**getter and setter methods for x and y coordinates
 
@@ -84,19 +92,26 @@ public class Location
         this.y = y;
     }
 
+    public Road[] getRoads()
+    {
+        return roads;
+    }
+
+    public void setRoads(Road[] roads)
+    {
+        this.roads = roads;
+    }
+
     /*
     Translates the location by dx along the x-axis and dy along the y-axis
      */
-    public void translate(int dx, int dy)
+
+
+    public static  double getMinDistance(@NotNull Location loc1, @NotNull Location loc2)
     {
-        this.x += dx;
-        this.y += dy;
+        return Math.sqrt(Math.pow(loc1.getX() - loc2.getX(), 2) + Math.pow(loc1.getY() - loc2.getY(), 2));
     }
 
-    public static  double distance(@NotNull Location loc1, @NotNull Location loc2)
-    {
-        return Math.sqrt(Math.pow(loc1.x - loc2.x, 2) + Math.pow(loc1.y - loc2.y, 2));
-    }
 
 
     @Override
@@ -114,7 +129,6 @@ public class Location
 
         Location location = (Location) o;
         return x == location.x && y == location.y;
-
     }
 
     @Override
@@ -125,15 +139,23 @@ public class Location
 
     public void setConnectedRoad(Road road)
     {
-        this.connectedRoad = road;
+        if(this.roads[0] == null)
+            this.roads[0] = road;
+        else if(this.roads[1] == null)
+            this.roads[1] = road;
+        else
+        {
+            System.out.println("[ERROR] The location already has 2 roads connected to it ... ");
+            System.exit(0);
+        }
     }
 
     public boolean IsConnected()
     {
-          if(this.connectedRoad != null)
-                return true;
-          else return false;
-
+        if(this.roads[0] == null && this.roads[1] == null)
+            return false;
+        else
+            return true;
     }
 
 }
