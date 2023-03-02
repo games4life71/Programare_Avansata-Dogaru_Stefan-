@@ -1,5 +1,7 @@
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -9,32 +11,38 @@ import java.util.Objects;
  * The default type is city.
  *
  * @author Dogaru Stefan Adrian
- *
- *
- *
  */
 public class Location
 {
     private int x;
     private int y;
     private LocationType type;
+    private static int id_counter = 0;
+    private int id;
+    private String locationName;
+    private ArrayList<Road> roads = new ArrayList<>();
 
-    private Road roads[] = new Road[2];  //assume we can only connect 1 road between 2 locations
 
 
-
-
-/** Constructor for Location class with type included
-
- */
-    public Location(int x, int y)
+    /**
+     * Constructor for Location class with type included
+     */
+    public Location(int x, int y, @Nullable String name)
     {
 
         this.x = x;
         this.y = y;
         this.type = null; //default type is null
+        this.locationName = name;
+        this.id = Location.id_counter++;
 
     }
+
+    public int getId()
+    {
+        return this.id;
+    }
+
     //setter for LocationType
     public void setLocationType(LocationType type)
     {
@@ -47,11 +55,11 @@ public class Location
     }
 
 
-
     public LocationType getType()
     {
         return type;
     }
+
 
     public void setType(@NotNull LocationType type)
     {
@@ -63,8 +71,8 @@ public class Location
      */
 
 
-    /**getter and setter methods for x and y coordinates
-
+    /**
+     * getter and setter methods for x and y coordinates
      */
     public int getX()
     {
@@ -92,26 +100,21 @@ public class Location
         this.y = y;
     }
 
-    public Road[] getRoads()
+    public ArrayList<Road> getRoads()
     {
         return roads;
     }
 
-    public void setRoads(Road[] roads)
+    public void setRoads(ArrayList<Road> roads)
     {
         this.roads = roads;
     }
 
-    /*
-    Translates the location by dx along the x-axis and dy along the y-axis
-     */
 
-
-    public static  double getMinDistance(@NotNull Location loc1, @NotNull Location loc2)
+    public static double getMinDistance(@NotNull Location loc1, @NotNull Location loc2)
     {
         return Math.sqrt(Math.pow(loc1.getX() - loc2.getX(), 2) + Math.pow(loc1.getY() - loc2.getY(), 2));
     }
-
 
 
     @Override
@@ -139,23 +142,22 @@ public class Location
 
     public void setConnectedRoad(Road road)
     {
-        if(this.roads[0] == null)
-            this.roads[0] = road;
-        else if(this.roads[1] == null)
-            this.roads[1] = road;
-        else
+        //check if the location is already connected to this road
+        if (this.roads.contains(road))
         {
-            System.out.println("[ERROR] The location already has 2 roads connected to it ... ");
+            System.out.println("[ERROR] The location is already connected to this road ... ");
             System.exit(0);
         }
+
+        this.roads.add(road);
     }
 
-    public boolean IsConnected()
-    {
-        if(this.roads[0] == null && this.roads[1] == null)
-            return false;
-        else
-            return true;
-    }
+//    public boolean IsConnected()
+//    {
+//        if (this.roads[0] == null && this.roads[1] == null)
+//            return false;
+//        else
+//            return true;
+//    }
 
 }
