@@ -143,7 +143,7 @@ public class ProblemInstance
 
         while (!queue.isEmpty())
         {
-            Location currentLocation = queue.poll();
+            Location currentLocation = queue.poll(); //returns null if the queue is empty
             for (int i = 0; i < this.locations.length; i++)
             {
                 if (this.adjacencyMatrix[currentLocation.getId()][i] == 1 && !visited[i])

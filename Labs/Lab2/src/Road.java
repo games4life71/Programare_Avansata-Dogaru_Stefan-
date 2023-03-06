@@ -30,12 +30,7 @@ public class Road
         }
 
         //check if any of the location has another road connected to it
-        if (startLocation.IsConnected()  && endLocation.IsConnected())
-        {
-            System.out.println("[ERROR] The locations already has a road connected to it ... ");
-            System.exit(0);
 
-        }
 
         this.speedLimit = speedLimit;
         this.startLocation = startLocation;

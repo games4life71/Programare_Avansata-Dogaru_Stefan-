@@ -100,7 +100,8 @@ public class Main
         problemInstance.printAdjacencyMatrix();
 
         //set the start and end location
-        problemInstance.setStartLocation(locations[0]);
+
+        problemInstance.setStartLocation(locations[6]);
         problemInstance.setEndLocation(locations[3]);
 
         //print the adjacency matrix
