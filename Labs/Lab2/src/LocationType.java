@@ -1,3 +1,6 @@
+/**
+ * Abstract class LocationType that defines basic information about LocationTypes
+ */
 public abstract  class  LocationType
 {
 
@@ -8,16 +11,28 @@ public abstract  class  LocationType
 
     }
 
+    /**
+     * Setter for locationType
+     * @param locationType  string
+     */
     protected  void setLocationType(String locationType)
     {
         this.locationType = locationType;
     }
 
+    /**
+     * Set the population
+     * @param population int
+     */
     protected  void setPopulation(int population)
     {
         this.population = population;
     }
 
+    /**
+     *  Getter for location type
+     * @return locationType
+     */
     protected  String getLocationType()
     {
         return this.locationType;

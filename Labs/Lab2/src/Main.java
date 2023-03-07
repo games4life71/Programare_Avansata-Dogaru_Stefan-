@@ -53,7 +53,7 @@ public class Main
             //TODO maybe a dict to the location and id ??
 
             locations[i] = new Location(ran_x, ran_y, null);
-            locations[i].setLocationType(new Airport()); // all will be airports
+            locations[i].setLocationType(new Airport()); // all will be airports for this demo
 
             // System.out.println("The id is " + locations[i].getId());
 
@@ -73,8 +73,6 @@ public class Main
 
 
         //create some roads
-
-
         Road road1 = new Road(RoadType.HIGHWAY, (int) Location.getMinDistance(locations[0], locations[1]), 100, locations[0], locations[1]);
         Road road2 = new Road(RoadType.HIGHWAY, (int) Location.getMinDistance(locations[0], locations[2]), 100, locations[0], locations[2]);
         Road road3 = new Road(RoadType.HIGHWAY, (int) Location.getMinDistance(locations[0], locations[3]), 100, locations[0], locations[3]);
@@ -84,7 +82,7 @@ public class Main
         Road road7 = new Road(RoadType.HIGHWAY, (int) Location.getMinDistance(locations[1], locations[2]), 100, locations[1], locations[2]);
         Road road8 = new Road(RoadType.HIGHWAY, (int) Location.getMinDistance(locations[2], locations[3]), 100, locations[2], locations[3]);
 
-
+        //add the roads to the problem instance
         problemInstance.AddRoad(road1, locations[0], locations[1]);
         problemInstance.AddRoad(road2, locations[0], locations[2]);
        // problemInstance.AddRoad(road3, locations[0], locations[3]);

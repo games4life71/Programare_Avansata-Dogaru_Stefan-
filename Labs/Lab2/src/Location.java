@@ -38,6 +38,10 @@ public class Location
 
     }
 
+    /**
+     * Getter for  id of the location
+     * @return @type int id
+     */
     public int getId()
     {
         return this.id;
@@ -111,6 +115,12 @@ public class Location
     }
 
 
+    /**
+     * Computes the minimum distance between 2 Locations
+     * @param loc1 @type Location
+     * @param loc2 @type Location
+     * @return
+     */
     public static double getMinDistance(@NotNull Location loc1, @NotNull Location loc2)
     {
         return Math.sqrt(Math.pow(loc1.getX() - loc2.getX(), 2) + Math.pow(loc1.getY() - loc2.getY(), 2));

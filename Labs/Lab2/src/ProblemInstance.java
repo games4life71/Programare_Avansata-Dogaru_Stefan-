@@ -17,16 +17,29 @@ public class ProblemInstance
     private int[][] adjacencyMatrix = new int[10][10];
 
 
+    /**
+     * Set the startLocation for the instance problem
+     * @param startLocation
+     */
     public void setStartLocation(Location startLocation)
     {
         this.startLocation = startLocation;
     }
 
+
+    /**
+     * Get the Start location
+     * @return Location
+     */
     public Location getStartLocation()
     {
         return startLocation;
     }
 
+    /**
+     * Set the end location
+     * @param endLocation
+     */
     public void setEndLocation(Location endLocation)
     {
         this.endLocation = endLocation;
@@ -38,7 +51,10 @@ public class ProblemInstance
     }
 
 
-    //constructor for ProblemInstance class
+    /**
+     * Constructor for ProblemInstance that builds the problem
+     * @param locations
+     */
     public ProblemInstance(Location[] locations)
     {
         this.locations = locations;
@@ -46,7 +62,10 @@ public class ProblemInstance
         this.roads = new Road[maxRoads];
     }
 
-    //fiinds and returns a  specific location from the locations array
+    /**
+     * Fiinds and returns a  specific location from the locations array
+     */
+
     public Location getLocation(Location location)
     {
         for (Location loc : locations)
@@ -60,6 +79,10 @@ public class ProblemInstance
     }
 
 
+    /**
+     * Check if the locations are valid
+     * @return True if valid , False otherwise
+     */
     public boolean isValid()
     {
         //check if the locations are valid
@@ -106,6 +129,9 @@ public class ProblemInstance
         return true;
     }
 
+    /**
+     * Prints the adjacency matrix created by the problem
+     */
     public void printAdjacencyMatrix()
     {
         for (int i = 0; i < this.locations.length; i++)
