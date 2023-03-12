@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Main
 {
@@ -16,6 +15,8 @@ public class Main
         Person p2 = new Person("Doe");
         Programmer p3 = new Programmer("Java" , "Johnny Cash");
         Company c1 = new Company("Microsoft", "Redmond, WA");
+
+
 
         if(nodes.contains(c1))
         {
@@ -53,14 +54,60 @@ public class Main
             nodes.add(p3);
         }
 
+        //print on the screen the info of each node
 
-        for (Node n : nodes)
-        {
-            System.out.println(n.getName());
-        }
+//        for (Node n : nodes)
+//        {
+//            System.out.println(n);
+//        }
 
 
         // ----------HOMEWORK PART ------------
+//       nodes.sort(
+//               new Comparator <Node>()
+//                  {
+//                    @Override
+//                      public int compare(Node n1,Node n2)
+//                    {
+//                         return n1.getName().compareTo(n2.getName());
+//                    }
+//                  }
+//
+//       );
+
+        Network network = new Network();
+
+        network.addNode(p1);
+        network.addNode(p2);
+        network.addNode(p3);
+        network.addNode(c1);
+        network.addNode(new Designer("Adobe", "San Jose, CA"));
+
+        network.getNode(0).addConnection(p2,"friend");
+        network.getNode(0).addConnection(p3,"friend");
+        network.getNode(0).addConnection(c1,"friend");
+        network.getNode(1).addConnection(p3,"friend");
+
+       // network.getImportance(network.getNode(1));
+
+        network.printNodes();
+
+        network.sort();
+        System.out.println();
+        System.out.println("[SORTED]:");
+        network.printNodes();
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     }

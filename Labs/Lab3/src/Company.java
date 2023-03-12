@@ -1,4 +1,7 @@
-public class Company implements  Comparable,Node
+/**
+ * Class that defines a network node which represents a company
+ */
+public class Company extends NetNode implements  Comparable,Node
 {
     private String companyName;
     private String companyAddress;
@@ -37,23 +40,6 @@ public class Company implements  Comparable,Node
     }
 
     @Override
-    public int compareTo(Object o)
-    {
-        if(this.companyName.compareTo(((Company)o).companyName) > 0)
-        {
-            return 1;
-        }
-        else if(this.companyName.compareTo(((Company)o).companyName) < 0)
-        {
-            return -1;
-        }
-        else
-        {
-            return 0;
-        }
-    }
-
-    @Override
     public String getName()
     {
         StringBuilder sb = new StringBuilder();
@@ -74,6 +60,11 @@ public class Company implements  Comparable,Node
             }
         }
         return false;
+    }
+    @Override
+    public String toString()
+    {
+        return this.getName();
     }
 }
 

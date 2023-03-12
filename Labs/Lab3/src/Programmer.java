@@ -1,8 +1,12 @@
+/**
+ * Defined a Programmer class that extends the Person class.
+ */
 public class Programmer extends Person
 {
 
 
     private String prefferedLanguage;
+
 
     public Programmer( String prefferedLanguage,String name)
     {
@@ -10,12 +14,19 @@ public class Programmer extends Person
         this.prefferedLanguage = prefferedLanguage;
     }
 
+
+
     public Programmer()
     {
         super("John Doe");
         this.prefferedLanguage = "Java";
     }
 
+    @Override
+    public String toString()
+    {
+        return this.getName();
+    }
 
 //    @Override
 //    public String getName()

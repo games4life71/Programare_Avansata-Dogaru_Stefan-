@@ -3,47 +3,29 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public  class Person implements Comparable<Person>,Node
+/**
+ * Class that defines a network node which represents a person
+ */
+public  class Person extends NetNode implements Node
 {
 
     private String name;
     private String birthDate;
 
 
-
-    /**
-     * A map of connections to other nodes and the type of connection
-     * key = Node
-     * value = type of connection(String)
-     */
-    private Map<Node,String> connections = new HashMap<Node,String>();
     public Person(String name)
     {
         this.name = name;
     }
 
+    //default constructor
     public Person()
     {
         this.name = "John Doe";
     }
 
 
-    @Override
-    public int compareTo(Person o)
-    {
-        if(this.name.compareTo(o.name) > 0)
-        {
-            return 1;
-        }
-        else if(this.name.compareTo(o.name) < 0)
-        {
-            return -1;
-        }
-        else
-        {
-            return 0;
-        }
-    }
+
     @Override
     public String getName()
     {
@@ -55,24 +37,7 @@ public  class Person implements Comparable<Person>,Node
 
     }
 
-    public void addConnection(Node n,String type)
-    {
-        connections.put(n,type);
-    }
-    public void removeConnection(Node n)
-    {
-        connections.remove(n);
-    }
-    //get a connection
-    public String getConnection(Node n)
-    {
-        return connections.get(n);
-    }
-    //get all connections
-    public Map<Node,String> getConnections()
-    {
-        return connections;
-    }
+
     @Override public boolean equals(Object o)
     {
         if(o instanceof Person)
@@ -84,6 +49,12 @@ public  class Person implements Comparable<Person>,Node
             }
         }
         return false;
+    }
+    @Override
+    public String toString()
+    {
+
+       return  this.getName();
     }
 
 }

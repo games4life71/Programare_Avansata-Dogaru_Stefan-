@@ -1,3 +1,6 @@
+/**
+ * Defines a Designer class that extends the Person class.
+ */
 public class Designer extends  Person
 {
 
@@ -16,27 +19,5 @@ public class Designer extends  Person
         this.prefferedSoftware = "Adobe Photoshop";
     }
 
-//    @Override
-//    public String getName()
-//    {
-//        return super.getName();
-//    }
-
-//    @Override
-//    public int compareTo(Person o)
-//    {
-//        if(this.getName().compareTo(((Designer)o).getName()) > 0)
-//        {
-//            return 1;
-//        }
-//        else if(this.getName().compareTo(((Designer)o).getName()) < 0)
-//        {
-//            return -1;
-//        }
-//        else
-//        {
-//            return 0;
-//        }
-//    }
 
 }
