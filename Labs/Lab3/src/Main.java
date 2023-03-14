@@ -88,7 +88,7 @@ public class Main
         network.getNode(0).addConnection(c1,"friend");
         network.getNode(1).addConnection(p3,"friend");
 
-       // network.getImportance(network.getNode(1));
+        network.getImportance(network.getNode(1));
 
         network.printNodes();
 
