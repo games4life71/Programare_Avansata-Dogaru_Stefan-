@@ -142,8 +142,19 @@ public class ProblemInstance
                         assignments.put(student, project);
                         //remove the project from the list of unassigned projects
                         unassigned_projects.remove(project);
+
                         break;
                     }
+                }
+
+                //if no project was assigned to the student
+                if(!assignments.containsKey(student))
+                {
+                    //assign the first unnassigned project to the student
+                    assignments.put(student, unassigned_projects.getFirst());
+                    //remove the project from the list of unassigned projects
+                    unassigned_projects.remove(unassigned_projects.getFirst());
+
                 }
             }
             else

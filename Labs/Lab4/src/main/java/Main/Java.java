@@ -71,11 +71,11 @@ public class Java
 
             for (int i = 0; i < rand_number; i++)
             {
-                Project random_project = (Project) proj_set_copy.toArray()[(int) (Math.random() * proj_set_copy.size())];
+                Project random_project = (Project) proj_set.toArray()[(int) (Math.random() * proj_set_copy.size())];
                 //add the preference to the problem instance
                 problemInstance.addPreference(student, random_project);
                 //remove the project from the set
-                proj_set_copy.remove(random_project);
+                //proj_set_copy.remove(random_project);
             }
 
         }
