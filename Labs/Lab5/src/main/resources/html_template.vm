@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>This html page was generated automatically with Apache Velocity </h1></br>
+<h2>Here is the list of all the documents in the catalog with the id "$catalog_id"</h2></br>
+
+<table border="1">
+<tr>
+<th>Document ID</th>
+<th>Document Name</th>
+<th>Document Path</th>
+
+</tr>
+
+#foreach($doc in $documents)
+<tr>
+<td>$doc.id</td>
+<td>$doc.name</td>
+<td>$doc.path</td>
+</tr>
+#end
+
+</table>
+</body>
+</html>
