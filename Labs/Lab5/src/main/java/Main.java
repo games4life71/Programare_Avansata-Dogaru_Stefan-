@@ -40,34 +40,30 @@ public class Main
 
         Catalog catalog = new Catalog();
         catalog.setId("1");
-     Document doc1 = new Document("1", "mihai", "mihai", false, "mihai", "empty");
+
+        Document doc1 = new Document("1", "docker_file", "C:\\Users\\stefy\\Desktop\\docker.txt", false, ".txt", "empty");
+        Document doc2 = new Document("2", "aws_pem", "C:\\Users\\stefy\\Desktop\\ec2_key.pem", false, ".pem", "empty");
+        Document doc3 = new Document("3", "steam", "C:\\Users\\stefy\\Desktop\\steam_Rec.txt", false, ".txt", "empty");
 //
 //
         Command add = new AddCommand(catalog, doc1);
-          add.execute();
-////        Command add1 = new AddCommand(catalog,new Book());
-////        add1.execute();
-////        Command add2 = new AddCommand(catalog,new Book());
-////        add2.execute();
-////
-//        for (Document doc : catalog.getDocuments())
-//        {
-//            System.out.println(doc.toString());
-//        }
-//////
-    // Command save = new SaveCommand(catalog);
-      // save.execute();
-       // LoadCommand load = new LoadCommand(catalog);
-       // load.execute(); // load has now the catalog from the file 'catalog.json'
-
-        // catalog  = load.getCatalog();
-//        catalog.toString();
+        add.execute();
+        Command add1 = new AddCommand(catalog, doc2);
+        add1.execute();
+        Command add2 = new AddCommand(catalog, doc3);
+        add2.execute();
+        Command save = new SaveCommand(catalog);
+        save.execute();
+        LoadCommand load = new LoadCommand(catalog);
+        load.execute(); // load has now the catalog from the file 'catalog.json'
 
 
-//        Command list = new ListCommand(catalog);
-//        list.execute();
-       // Command view = new ViewCommand(catalog.getDocuments().stream().findFirst().get());
-        //view.execute();
+
+
+        Command list = new ListCommand(catalog);
+        list.execute();
+        Command view = new ViewCommand(catalog.getDocuments().stream().findFirst().get());
+        view.execute();
         Command report = new ReportCommand(catalog);
         report.execute();
     }

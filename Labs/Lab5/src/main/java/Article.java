@@ -38,7 +38,7 @@ public class Article extends  Document implements Serializable
 
     public Article(String id, String Name , String author, String publisher, String datePublished)
     {
-        super(id, Name);
+        super();
         this.author = author;
         this.publisher = publisher;
         this.datePublished = datePublished;
