@@ -22,11 +22,11 @@ public class MainFrame extends JFrame
     {
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        drawingPanel = new DrawingPanel(this);
+        drawingPanel = new DrawingPanel(this, 100, 10, 10, 1);
+
+
         configPanel = new ConfigPanel(this);
         controlSouth = new ControlSouth(this);
-
-
 
         configPanel.setVisible(true);
         drawingPanel.setVisible(true);

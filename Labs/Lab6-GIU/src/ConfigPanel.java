@@ -30,7 +30,9 @@ public class ConfigPanel extends JPanel
 
         linesLabel = new JLabel("Edge probability:");
         linesCombo = new JComboBox(new Double[]{0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0});
+        linesCombo.setSelectedIndex(9);
         createButton = new JButton("Create");
+
 
 
         //create the rest of the components
