@@ -12,7 +12,7 @@ public class MainFrame extends JFrame
     public MainFrame()
     {
         super("Super cool GUI");
-        //setSize(1000, 700);
+
         //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
         init();
@@ -22,6 +22,7 @@ public class MainFrame extends JFrame
     {
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         drawingPanel = new DrawingPanel(this, 100, 10, 10, 1);
 
 
@@ -30,10 +31,10 @@ public class MainFrame extends JFrame
 
         configPanel.setVisible(true);
         drawingPanel.setVisible(true);
+
         add(drawingPanel, BorderLayout.CENTER);
         add(configPanel, BorderLayout.NORTH);
         add(controlSouth, BorderLayout.SOUTH);
         pack();
-
     }
 }
