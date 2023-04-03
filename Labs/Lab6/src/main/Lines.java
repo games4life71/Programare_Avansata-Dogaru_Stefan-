@@ -1,13 +1,29 @@
 import java.awt.*;
+import java.io.Serializable;
 
 //class that defines the behavior of the Lines object
-public class Lines
+public class Lines implements Serializable
 {
 
+
+    public Lines()
+    {
+    }
     //a line it's connected to two points
     private MyPoint p1;
     private MyPoint p2;
     private Boolean isColored = false;
+    private String  Color;
+
+    public String getColor()
+    {
+        return Color;
+    }
+
+    public void setColor(String color)
+    {
+        this.Color = color;
+    }
 
     public Boolean getColored()
     {
