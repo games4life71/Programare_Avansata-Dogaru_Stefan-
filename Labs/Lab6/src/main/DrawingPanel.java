@@ -1,3 +1,5 @@
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -8,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 public class DrawingPanel extends JPanel implements Serializable
 {
@@ -19,19 +22,31 @@ public class DrawingPanel extends JPanel implements Serializable
 
     /*BufferedImage image; //the offscreen image
     Graphics2D graphics; //the tools needed to draw in the image*/
-    final List<Lines> lines = new java.util.ArrayList<>();
-    final MyPoint[] points = new MyPoint[10];
+    List<Lines> lines = new java.util.ArrayList<>();
+    List<MyPoint> points = new java.util.ArrayList<>();
+    //final MyPoint[] points = new MyPoint[10];
     private final int numVertices;
-    private final int x;
-    private final int y;
+
     private final double edgeProbability;
     private int player = 0; //player turns  0 ->red, 1 -> blue
     private int WIN = 0; //win flag
 
+    private GameState gameState;
+
     //adjacency matrix for the graph
-    private static int[][] adjMatrix = new int[10][10];
+    private static int[][] adjMatrix = new int[100][100];
 
 
+    /**
+     * Checks for a vertical line if the mouse is in proximity of it
+     *
+     * @param x
+     * @param y
+     * @param x1
+     * @param y1
+     * @param y2
+     * @return
+     */
     private Boolean isNearLine(int x, int y, double x1, double y1, double y2)
     {
         if (y < y1 && y > y2)
@@ -46,36 +61,14 @@ public class DrawingPanel extends JPanel implements Serializable
     }
 
 
-
-//    @JsonCreator
-//    public DrawingPanel(@JsonProperty("dots") List<MyPoint> dots, @JsonProperty("lines") List<Lines> lines,
-//                        @JsonProperty("color") int color, @JsonProperty("frame") MainFrame frame, @JsonProperty("x") int[] x, @JsonProperty("y") int[] y,
-//                        @JsonProperty("numVertices") int numVertices, @JsonProperty("edgeProbability") double edgeProbability) {
-//
-//        this.color = color;
-//        this.frame = frame;
-//
-//        this.x = x;
-//        this.y = y;
-//        this.numVertices = numVertices;
-//        this.edgeProbability = edgeProbability;
-//        createOffscreenImage();
-//        initPanel();
-//    }
-
-
-
-
-
-
-
     public DrawingPanel(MainFrame frame, int numVertices, int x, int y, double edgeProbability)
     {
         this.frame = frame;
         this.numVertices = numVertices;
-        this.x = x;
-        this.y = y;
+
         this.edgeProbability = edgeProbability;
+
+        this.gameState = new GameState(numVertices, edgeProbability);
 
         init();
         addMouseListener(new MouseAdapter()
@@ -126,6 +119,7 @@ public class DrawingPanel extends JPanel implements Serializable
                             //color the line with blue
                             g.setColor(Color.BLUE);
                             line.setColored(true);
+                            line.setColor("blue");
                             //complete the adjacency matrix
                             adjMatrix[line.getP1().getId()][line.getP2().getId()] = 1;
                             adjMatrix[line.getP2().getId()][line.getP1().getId()] = 1;
@@ -161,6 +155,8 @@ public class DrawingPanel extends JPanel implements Serializable
                         {
                             g.setColor(Color.RED);
                             line.setColored(true);
+                            line.setColor("red");
+
                             //complete the adjacency matrix
                             adjMatrix[line.getP1().getId()][line.getP2().getId()] = 2;
                             adjMatrix[line.getP2().getId()][line.getP1().getId()] = 2;
@@ -197,7 +193,9 @@ public class DrawingPanel extends JPanel implements Serializable
 //                            }
 //                            System.out.println();
 //                        }
-                        System.out.println("----------------------------------------------------");
+                        // System.out.println("----------------------------------------------------");
+                        //save the color of the line
+
                         g.drawLine(line.getP1().x, line.getP1().y, line.getP2().x, line.getP2().y);
                     }
 
@@ -211,6 +209,16 @@ public class DrawingPanel extends JPanel implements Serializable
     }
 
 
+    /**
+     * Checks if the game is over by checking if a cycle of length 3 is formed
+     *
+     * @param graph
+     * @param marked
+     * @param n
+     * @param vert
+     * @param start
+     * @param color
+     */
     private void detectWin(int graph[][], boolean marked[], int n, int vert, int start, int color)
     {
 
@@ -256,6 +264,9 @@ public class DrawingPanel extends JPanel implements Serializable
 
     }
 
+    /**
+     * Initializes the board
+     */
     public void init()
     {
 
@@ -305,7 +316,7 @@ public class DrawingPanel extends JPanel implements Serializable
         {
             g.drawOval(x[i], y[i], 10, 10);
             //add the point to the points array
-            points[i] = new MyPoint(x[i], y[i], i);
+            points.add(new MyPoint(x[i], y[i], i));
         }
         //draw the lines
         for (int i = 0; i < numVertices; i++)
@@ -344,6 +355,7 @@ public class DrawingPanel extends JPanel implements Serializable
         Graphics g = this.getGraphics();
         g.clearRect(0, 0, W, H);
         lines.clear();
+        points.clear();
         //reset the adjacency matrix
         for (int i = 0; i < 10; i++)
         {
@@ -354,6 +366,9 @@ public class DrawingPanel extends JPanel implements Serializable
         }
     }
 
+    /**
+     * takes a screenshot of the current game
+     */
     private void takeScreenshot()
     {
 
@@ -368,5 +383,98 @@ public class DrawingPanel extends JPanel implements Serializable
         {
             System.err.println("ImageIsuues");
         }
+    }
+
+    /**
+     * saves the current game configuration to a json file
+     */
+    public void save()
+    {
+        //save adjaceny matrix to a json file
+        //copy lines to game state
+        gameState.setLines(lines);
+        //copy adjaceny matrix to game state
+        gameState.setAdjacencyMatrix(adjMatrix);
+        //copy points to game state
+        //print all the points
+        for (MyPoint p : points)
+        {
+            System.out.println(p);
+        }
+
+        gameState.setPoints(points);
+
+        ObjectMapper mapper = new ObjectMapper();
+        try
+        {
+            mapper.writeValue(new File("game_state.json"), gameState);
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * loads a game configuration from a json file
+     */
+    public void load()
+    {
+        Graphics g = this.getGraphics();
+
+        GameState gameState = new GameState();
+        ObjectMapper mapper = new ObjectMapper();
+
+        try
+        {
+            gameState = mapper.readValue(new File("game_state.json"), GameState.class);
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+
+        //copy lines from game state to lines
+        lines = gameState.getLines();
+
+        //copy adjaceny matrix from game state to adjaceny matrix
+        adjMatrix = gameState.getAdjacencyMatrix();
+
+        //copy points from game state to points
+        points = gameState.getPoints();
+
+
+        //set the controls to the values from the json file
+        //frame.configPanel.dotsSpinner.setValue(points.size());
+        frame.configPanel.linesCombo.setSelectedItem(1.0);
+
+
+        for (Lines line : lines)
+        {
+
+
+            ((Graphics2D) g).setStroke(new BasicStroke(3));
+            //set the color
+            if (Objects.equals(line.getColor(), "red"))
+            {
+                g.setColor(Color.RED);
+            } else if (Objects.equals(line.getColor(), "blue"))
+            {
+                g.setColor(Color.BLUE);
+            } else
+            {
+                g.setColor(Color.BLACK);
+            }
+
+            g.drawLine(line.getP1().x, line.getP1().y, line.getP2().x, line.getP2().y);
+            //set the stroke
+
+        }
+        //draw the points
+        for (MyPoint point : points)
+        {
+            g.drawOval(point.x, point.y, 10, 10);
+        }
+
+
     }
 }

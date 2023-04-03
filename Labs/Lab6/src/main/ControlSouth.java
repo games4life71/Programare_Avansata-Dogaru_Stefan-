@@ -18,7 +18,11 @@ public class ControlSouth extends  JPanel
     public void init()
     {
         loadButton = new JButton("Load");
+        loadButton.addActionListener(e -> frame.drawingPanel.load());
+
         saveButton = new JButton("Save");
+        saveButton.addActionListener(e -> frame.drawingPanel.save());
+
         exitButton = new JButton("Exit");
         resetButton = new JButton("Reset");
         resetButton.addActionListener(e -> frame.drawingPanel.reset());
