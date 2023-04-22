@@ -9,8 +9,30 @@ public class Cell
     public Cell()
     {
         this.tokens = new ArrayList<>();
+        this.visited = false;
+    }
+    private  int row;
+    private  int col;
+
+    public int getRow()
+    {
+        return row;
     }
 
+    public void setRow(int row)
+    {
+        this.row = row;
+    }
+
+    public int getCol()
+    {
+        return col;
+    }
+
+    public void setCol(int col)
+    {
+        this.col = col;
+    }
 
     public void addToken(Token token)
     {
@@ -40,11 +62,11 @@ public class Cell
     public String toString()
     {
      //loop through the tokens and print them
-        String s = "";
+        StringBuilder s = new StringBuilder();
         for (Token t : tokens)
         {
-            s += t.toString();
+            s.append(t.toString());
         }
-        return s;
+        return s.toString();
     }
 }

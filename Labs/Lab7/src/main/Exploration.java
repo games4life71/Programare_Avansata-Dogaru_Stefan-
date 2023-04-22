@@ -26,6 +26,21 @@ public class Exploration
     {
         this.robots.add(r);
     }
+
+    public Boolean isTaskComplete()
+    {
+        for (Cell[] row : map.getMatrix())
+        {
+            for (Cell c : row)
+            {
+                if (!c.isVisited())
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
     public void start()
     {
         for(Robot r : robots)

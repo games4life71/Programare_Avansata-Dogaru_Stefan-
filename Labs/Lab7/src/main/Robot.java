@@ -1,9 +1,13 @@
-import java.util.Random;
+import java.awt.*;
+import java.util.*;
+import java.util.List;
+
+import static java.lang.Thread.sleep;
 
 /**
  * This class defines the behaviour of a robot that can move around the map and extract tokens and store them in .
  */
-public class Robot implements  Runnable
+public class Robot implements Runnable
 {
 
 
@@ -13,6 +17,7 @@ public class Robot implements  Runnable
     {
         return robotId;
     }
+
     public int currentRow;
     public int currentCol;
 
@@ -36,80 +41,86 @@ public class Robot implements  Runnable
         this.currentCol = currentCol;
     }
 
-    boolean isRunning ;
+    boolean isRunning;
     Exploration explore;
 
-    public Robot(int id , Exploration explore )
+    public Robot(int id, Exploration explore)
     {
         this.explore = explore;
         Random rand = new Random();
-
-        this.currentCol =rand.nextInt(0,99);
-        this.currentRow =rand.nextInt(0,99);
         this.robotId = id;
     }
-//    public Boolean checkIfDone()
-//    {
-//        for(Cell c : explore.getMap().matrix)
-//        {
-//            if(!c.isVisited())
-//            {
-//                return false;
-//            }
-//        }
-//    }
-   @Override
+
+
+    //make the robot pause
+    public void pause()
+    {
+        System.out.println("Robot " + robotId + " is pausing");
+        isRunning = false;
+    }
+
+    public void resume()
+    {
+        System.out.println("Robot " + robotId + " is resuming");
+        isRunning = true;
+    }
+
+    @Override
     public void run()
     {
-        while(isRunning)
+       // System.out.println("the initial position of the robot" + robotId +"is " + currentRow + " " + currentCol);
+        try
+        {
+            sleep(1000);
+        } catch (InterruptedException e)
+        {
+            throw new RuntimeException(e);
+        }
+        // array of directions for the robot
+        List<Point> directions = new ArrayList<>();
+        directions.add(new Point(0, 1)); //right
+        directions.add(new Point(0, -1)); //left
+        directions.add(new Point(1, 0)); //down
+        directions.add(new Point(-1, 0)); //up
+
+        isRunning = true;
+        Deque<Cell> stack = new ArrayDeque<>();
+
+        stack.push(explore.getMap().getMatrix()[currentRow][currentCol]);
+
+        while (isRunning && !stack.isEmpty())
         {
 
-            //move to the next cell randomly
-            //pick a random direction
-            Random rand = new Random();
-            int direction = rand.nextInt(0,3);
-            switch (direction)
+            //start by visiting the current cell
+            //explore the map systematically
+
+            Cell currentCell = stack.pop();
+
+            if (!currentCell.isVisited())
             {
-                case 0:
-                    //move up
-                    if(currentRow > 0)
+                //if the cell is not visited, visit it and add its neighbours to the stack
+
+                explore.getMap().visit(currentCell.getRow(), currentCell.getCol(), this);
+                System.out.println("Robot " + robotId + " is visiting cell " + currentCell.getRow() + " " + currentCell.getCol());
+
+
+                //add the neighbours to the stack
+                for (Point p : directions)
+                {
+
+                    int row = currentCell.getRow() + p.x;
+                    int col = currentCell.getCol() + p.y;
+
+                    if (row >= 0 && row < 100 && col >= 0 && col < 100)
                     {
-                        currentRow--;
+                        if (!explore.getMap().getMatrix()[row][col].isVisited()) //if it's not visited
+                            stack.push(explore.getMap().getMatrix()[row][col]);
                     }
-                    break;
-                case 1:
-                    //move down
-                    if(currentRow < 99)
-                    {
-                        currentRow++;
-                    }
-                    break;
-                case 2:
-                    //move left
-                    if(currentCol > 0)
-                    {
-                        currentCol--;
-                    }
-                    break;
-                case 3:
-                    //move right
-                    if(currentCol < 99)
-                    {
-                        currentCol++;
-                    }
-                    break;
+                }
+
             }
-            System.out.println("Robot "+ robotId + " is moving to cell ("+ currentRow + "," + currentCol + ")");
-            //pick a new cell to explore
-            explore.getMap().visit(currentRow,currentRow,this);
-            //sleep for 1 second
-            try
-            {
-                Thread.sleep(2);
-            } catch (InterruptedException e)
-            {
-                e.printStackTrace();
-            }
+
+
         }
     }
 }
