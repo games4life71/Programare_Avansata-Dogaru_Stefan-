@@ -52,6 +52,7 @@ public class ExplorationMap
             {
                // System.out.println("Robot " + robot.getRobotId() + " is visiting cell " + row + " " + col);
                 List<Token> extracted = mem.extractTokens(10);
+             //  System.out.println("Robot " + robot.getRobotId() + " extracted " + extracted.size() + " tokens");
                 //convert the list of tokens to a cell
                 Cell mycell = new Cell();
                 mycell.getTokens().addAll(extracted);
@@ -59,6 +60,9 @@ public class ExplorationMap
                 matrix[row][col] = mycell;  //add the extracted tokens to the cell
                 mycell.setCol(col);
                 mycell.setRow(row);
+
+                //add the tokens to the robot
+                robot.setTokenCount(robot.getTokenCount() + extracted.size());
 //                matrix[row][col].setRow(row);
 //                matrix[row][col].setCol(col);
 

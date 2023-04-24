@@ -3,7 +3,7 @@ import java.util.List;
 
 public class Exploration
 {
-    private final SharedMemory mem = new SharedMemory(10000);
+    private final SharedMemory mem = new SharedMemory(100000);
     private final ExplorationMap map = new ExplorationMap(this.mem);
     private final List<Robot> robots = new ArrayList<>();
 
@@ -54,4 +54,13 @@ public class Exploration
     }
 
 
+    public void stop()
+    {
+        System.out.println("Stopping exploration");
+        for(Robot r : robots)
+        {
+            System.out.println("Stopping robot"+ r.getRobotId());
+            r.isRunning = false;
+        }
+    }
 }

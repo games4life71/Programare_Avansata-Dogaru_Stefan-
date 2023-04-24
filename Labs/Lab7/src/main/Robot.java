@@ -18,6 +18,18 @@ public class Robot implements Runnable
         return robotId;
     }
 
+    private int tokenCount = 0;
+
+    public int getTokenCount()
+    {
+        return tokenCount;
+    }
+
+    public void setTokenCount(int tokenCount)
+    {
+        this.tokenCount = tokenCount;
+    }
+
     public int currentRow;
     public int currentCol;
 
@@ -101,7 +113,7 @@ public class Robot implements Runnable
                 //if the cell is not visited, visit it and add its neighbours to the stack
 
                 explore.getMap().visit(currentCell.getRow(), currentCell.getCol(), this);
-                System.out.println("Robot " + robotId + " is visiting cell " + currentCell.getRow() + " " + currentCell.getCol());
+               // System.out.println("Robot " + robotId + " is visiting cell " + currentCell.getRow() + " " + currentCell.getCol());
 
 
                 //add the neighbours to the stack

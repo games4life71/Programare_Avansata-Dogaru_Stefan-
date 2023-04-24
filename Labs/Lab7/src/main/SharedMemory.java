@@ -14,13 +14,13 @@ public class SharedMemory
         Collections.shuffle(this.tokenList);
     }
 
-    public SharedMemory(int n )
+    public SharedMemory(int n)
     {
         for (int i =0 ; i < n ; i++)
         {
-            this.tokenList = new ArrayList<>();
             this.tokenList.add(new Token(i));
         }
+
     }
 
     public synchronized List<Token> extractTokens(int howMany)
@@ -30,9 +30,17 @@ public class SharedMemory
         for (int i = 0; i < howMany; i++)
         {
             if (this.tokenList.size() > 0)
+            {
+              //  System.out.println("Extracting token " + this.tokenList.get(0).getId());
                 extracted.add(this.tokenList.remove(0));
+            //System.out.println("Extracting token " + this.tokenList.get(0).getId());
+
+            }
             else break;
         }
+
+       // System.out.println("Extracted " + extracted.size() + " tokens");
+
         return extracted;
     }
 }

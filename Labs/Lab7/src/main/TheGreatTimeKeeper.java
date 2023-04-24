@@ -7,6 +7,16 @@ public class TheGreatTimeKeeper implements Runnable
     private int limit; // in seconds
     private Exploration explore;
 
+    public int getTimeElapsed()
+    {
+        return timeElapsed;
+    }
+
+    public void setTimeElapsed(int timeElapsed)
+    {
+        this.timeElapsed = timeElapsed;
+    }
+
     private int timeElapsed = 0;
 
     public TheGreatTimeKeeper(Exploration explore)
@@ -14,6 +24,7 @@ public class TheGreatTimeKeeper implements Runnable
         this.limit = 1000;
         this.explore = explore;
     }
+
 
     public TheGreatTimeKeeper(int limit, Exploration explore)
     {
@@ -55,4 +66,12 @@ public class TheGreatTimeKeeper implements Runnable
     }
 
 
+
+    public void stop()
+    {
+        System.out.println("Stopping the  time keeper .. ");
+        //stop the other robots from running
+        timeElapsed = limit +1 ;
+
+    }
 }
