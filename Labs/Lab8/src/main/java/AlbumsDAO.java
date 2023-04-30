@@ -1,55 +1,65 @@
 import java.sql.*;
 
-public class AlbumsDAO
+public class AlbumsDAO extends DAO<Albums>
 {
 
-    public void create(int artistID, String releaseYear, String title, int id) throws SQLException
+    static Connection conn;
+    static
     {
-
-        Connection conn = Database.getConnection();
-        PreparedStatement ps = conn.prepareStatement("INSERT INTO albums (id, release_year, title,artistID) VALUES (?, ?, ?,? );");
-        ps.setInt(1, id);
-        ps.setString(2, releaseYear);
-        ps.setString(3, title);
-        ps.setInt(4, artistID);
-
-
         try
         {
+            conn = Database.getConnection();
+        } catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+
+    //
+    @Override
+    public void create(Albums album) throws SQLException
+    {
+
+        PreparedStatement ps = null;
+        try
+        {
+            ps = conn.prepareStatement("INSERT INTO albums ( title, release_year, artistid) VALUES ( ?, ?, ?);");
+
+            ps.setString(1, album.getName());
+            ps.setInt(2, album.getReleaseYear());
+            ps.setInt(3, album.getArtistId());
             ps.executeUpdate();
-            conn.commit();
+            //conn.commit();
         } catch (SQLException e)
         {
             System.out.println("Error creating album: " + e);
         }
-
     }
 
-    public Integer findByName(String name) throws SQLException
+    @Override
+    public Albums findByName(String name) throws SQLException
     {
-        Connection conn = Database.getConnection();
-        PreparedStatement ps = conn.prepareStatement("SELECT id FROM albums WHERE name = ?;");
-        ps.setString(1, name);
 
-        try
-        {
-            return ps.executeQuery().getInt("id");
-        } catch (SQLException e)
-        {
-            System.out.println("Error finding album: " + e);
-        }
-
-        return null;
-    }
-
-    public String findById(int id) throws SQLException
-    {
-        Connection conn = Database.getConnection();
         try (Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(
-                     "select title from albums where id=" + id)) {
-            return rs.next() ? rs.getString(1) : null;
+                     "select id, release_year, artistid from albums where title=" + "'" + name + "'"))
+        {
+            return rs.next() ? new Albums(rs.getInt(1), name, rs.getInt(2), rs.getInt(3)) : null;
         }
 
     }
+
+    @Override
+    public Albums findById(int id) throws SQLException
+    {
+
+        try (Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(
+                     "select title, release_year, artistid from albums where id=" + "'" + id + "'"))
+        {
+            return rs.next() ? new Albums(id, rs.getString(1), rs.getInt(2), rs.getInt(3)) : null;
+        }
+
+    }
+
 }

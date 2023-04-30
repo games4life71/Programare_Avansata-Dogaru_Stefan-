@@ -1,31 +1,69 @@
 import java.sql.*;
 
-public class ArtistDAO
+public class ArtistDAO extends  DAO<Artists>
 {
-    public void create(int id, String name ) throws SQLException
+    static Connection conn;
+    static
     {
-        Connection conn = Database.getConnection();
-        PreparedStatement ps = conn.prepareStatement("INSERT INTO artist (id, name) VALUES (?, ?);");
-        ps.setInt(1, id);
-        ps.setString(2, name);
         try
         {
+            conn = Database.getConnection();
+        } catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+   public void create(Artists artist) throws SQLException
+    {
+
+        PreparedStatement ps = null;
+        try
+        {
+            ps = conn.prepareStatement("INSERT INTO artist ( name) VALUES ( ?);");
+            ps.setString(1, artist.getName());
             ps.executeUpdate();
-            conn.commit();
+            //conn.commit();
         } catch (SQLException e)
         {
             System.out.println("Error creating artist: " + e);
         }
+
     }
 
-    public String findByName(String name) throws SQLException
+    @Override
+    public Artists findByName(String name) throws SQLException
     {
-        Connection conn = Database.getConnection();
-        try (Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(
-                     "select id  from artist where name=" + "'" + name  +"'")) {
-            return rs.next() ? rs.getString(1) : null;
+        try{
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM artist WHERE name = ?");
+            ps.setString(1, name);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next())
+            {
+                return new Artists(rs.getInt(1), rs.getString(2));
+            }
+            else
+            {
+                return null;
+            }
+        }
+        catch (SQLException e)
+        {
+            System.out.println("Error finding artist: " + e);
         }
 
+        return null;
+    }
+
+    @Override
+    public Artists findById(int id) throws SQLException
+    {
+
+         try (Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(
+                      "select name from artist where id=" + "'" + id  +"'")) {
+              return rs.next() ? new Artists(id, rs.getString(1)) : null;
+         }
     }
 }

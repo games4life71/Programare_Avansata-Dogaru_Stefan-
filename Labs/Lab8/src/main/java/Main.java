@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.Reader;
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -12,35 +13,42 @@ public class Main
 {
     public static void main(String[] args) throws SQLException, FileNotFoundException
     {
-        Database.createConnection();
         Connection connection = Database.getConnection();
 
         //populate the database using a script
         ScriptRunner sr = new ScriptRunner(connection);
         //Creating a reader object
         Reader reader = new BufferedReader(new FileReader("D:\\Projects\\Java\\Programare_Avansata-Dogaru_Stefan-\\Labs\\Lab8\\src\\main\\scripts\\script.sql"));
-        //Running the script
-        sr.runScript(reader);
+        //Run the script on the database
 
-        ArtistDAO artistDAO = new ArtistDAO();
-        artistDAO.create(1, "PinkFloyd");
+        // sr.runScript(reader);
+
+        Populate populate = new Populate("D:\\Projects\\Java\\Programare_Avansata-Dogaru_Stefan-\\Labs\\Lab8\\src\\main\\resources\\albumlist.csv");
 
         AlbumsDAO albumsDAO = new AlbumsDAO();
+        ArtistDAO artistDAO = new ArtistDAO();
+        GenresDAO genresDAO = new GenresDAO();
 
-        albumsDAO.create(1, "1979", "The Wall", 1);
-        //find by id
-        System.out.println(albumsDAO.findById(1));
+        System.out.println("Populating database...");
 
-        //find by name
-        System.out.println(artistDAO.findByName("PinkFloyd"));
+        while (!populate.isEmpty())
+        {
+            String[] line = populate.popLine();
+            String releaseYear = line[0];
+            String albumName = line[1];
+            String artistName = line[2];
+            String genre = line[3];
+            //insert the artist into the database
 
-        //commit the changes to the database
-        connection.commit();
-        Database.stopConnection();
+            //insert the data into the database
 
 
+            artistDAO.create(new Artists(artistName));
+            albumsDAO.create(new Albums(albumName, artistDAO.findByName(artistName).getId(), Integer.parseInt(releaseYear)));
+            genresDAO.create(new Genres(genre));
 
 
+        }
 
 
     }
