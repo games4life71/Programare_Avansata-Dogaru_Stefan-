@@ -8,6 +8,7 @@ import java.io.Serializable;
 @Table(name = "genre", schema = "public", catalog = "postgres")
 @NamedQuery(name = "GenreEntity.findByName", query = "SELECT g FROM GenreEntity g WHERE g.name = :name")
 @NamedQuery(name = "GenreEntity.findAll", query = "SELECT g FROM GenreEntity g")
+@NamedQuery(name = "GenreEntity.findById", query = "SELECT g FROM GenreEntity g WHERE g.id = :id")
 public class GenreEntity implements Serializable
 {
     @GeneratedValue(strategy = GenerationType.IDENTITY)

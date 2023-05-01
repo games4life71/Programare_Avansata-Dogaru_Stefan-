@@ -21,17 +21,17 @@ public class Main
 //            System.out.println(genreEntity.getName());
 //        }
 
-        GenreEntity newGenre = new GenreEntity("Pop12345");
+        GenreEntity newGenre = new GenreEntity("Pop123456");
         System.out.println(newGenre.getId());
         genreRepository.create(newGenre);
-       List< GenreEntity> genreEntity = genreRepository.findByName("Pop12345");
+       List< GenreEntity> genreEntity = genreRepository.findAll();
         for(GenreEntity genreEntity1 : genreEntity)
         {
-            System.out.println(genreEntity1.getName());
+            System.out.println(genreEntity1.getName() + " " + genreEntity1.getId());
         }
         entityManager.getTransaction().commit();
         //save the changes
-        entityManager.close();
+
 
 
 
